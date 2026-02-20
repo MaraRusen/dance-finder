@@ -15,7 +15,7 @@ Finding a dance class in Barcelona today means scrolling through dozens of Insta
 
 ## Live Demo
 
-🌐 **[dance-finder.streamlit.app](https://dance-finder.streamlit.app)** ← coming soon
+🌐 **[Dance Finder — Live Demo](https://dance-finder-ax2tbcexhyhjqsjij2exkw.streamlit.app)**
 
 ---
 
