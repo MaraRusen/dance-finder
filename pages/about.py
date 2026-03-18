@@ -1,268 +1,432 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="How It Works · Dance Finder",
-    page_icon="⚙️",
+    page_title="How It Works — Dance Finder BCN",
+    page_icon="⚙",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap');
 
-    :root {
-        --bg:     #080818;
-        --bg2:    #0e0e28;
-        --border: rgba(120, 100, 255, 0.18);
-        --accent: #7c5cbf;
-        --blue:   #4f8ef7;
-        --text:   #c8c8e8;
-        --muted:  #6a6a8a;
-        --white:  #eeeeff;
-    }
+:root {
+    --bg:      #07070f;
+    --bg2:     #0d0d1a;
+    --card:    rgba(13,13,26,0.9);
+    --border:  rgba(255,255,255,0.07);
+    --accent:  #6c4fff;
+    --pink:    #ff4f9a;
+    --blue:    #3d9bff;
+    --green:   #3dffa0;
+    --yellow:  #ffd700;
+    --text:    #d4d4e8;
+    --muted:   #5a5a7a;
+    --white:   #f0f0ff;
+}
 
-    .stApp {
-        background-color: var(--bg);
-        background-image:
-            radial-gradient(ellipse at 15% 30%, rgba(70,40,180,0.2) 0%, transparent 55%),
-            radial-gradient(ellipse at 85% 70%, rgba(30,60,180,0.15) 0%, transparent 55%);
-        color: var(--text);
-    }
-    [data-testid="stSidebar"] { display: none; }
-    #MainMenu { visibility: hidden; }
-    footer { visibility: hidden; }
-    [data-testid="collapsedControl"] { display: none; }
-    [data-testid="stHeader"] { background: transparent; }
-    [data-testid="stMainMenu"] { display: none; }
-    .block-container { padding-top: 3rem !important; max-width: 1100px !important; }
+.stApp {
+    background: var(--bg);
+    background-image:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(108,79,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255,79,154,0.08) 0%, transparent 60%);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+}
 
-    .page-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 5rem;
-        letter-spacing: 6px;
-        color: var(--white);
-        line-height: 0.9;
-        margin: 0;
-        text-shadow: 0 0 80px rgba(124,92,191,0.4);
-    }
-    .page-subtitle {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.75rem;
-        letter-spacing: 4px;
-        color: var(--blue);
-        text-transform: uppercase;
-        margin-bottom: 2.5rem;
-        margin-top: 0.4rem;
-    }
-    .section-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.6rem;
-        letter-spacing: 4px;
-        color: var(--blue);
-        margin-top: 2.5rem;
-        margin-bottom: 0.8rem;
-    }
+[data-testid="stSidebar"] { display: none !important; }
+#MainMenu, footer, [data-testid="collapsedControl"] { visibility: hidden; display: none; }
+[data-testid="stHeader"] { background: transparent; }
+.block-container { padding-top: 0 !important; max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
 
-    /* Pillar cards */
-    .pillar-card {
-        background: rgba(14,12,42,0.55);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.4rem 1.6rem;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-        height: 100%;
-    }
-    .pillar-card h3 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.1rem;
-        letter-spacing: 2px;
-        color: var(--white);
-        margin: 0 0 0.6rem 0;
-    }
-    .pillar-card p {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.82rem;
-        color: var(--muted);
-        line-height: 1.7;
-        margin: 0;
-    }
-    .pillar-accent { color: var(--blue); }
+.page-hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 64px 48px 64px;
+    position: relative; overflow: hidden;
+}
+.page-hero::after {
+    content: '⚙';
+    position: absolute; right: 64px; top: 50%; transform: translateY(-50%);
+    font-size: 10rem; opacity: 0.04; pointer-events: none;
+}
+.page-eyebrow { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: var(--pink); margin-bottom: 10px; }
+.page-title   { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; letter-spacing: 3px; color: var(--white); line-height: 0.9; margin: 0 0 12px 0; }
+.page-title span { color: var(--accent); }
+.page-sub     { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; color: var(--muted); margin-bottom: 20px; }
+.back-link    { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 
-    /* Pipeline boxes */
-    .pipe-box {
-        background: rgba(14,12,42,0.5);
-        border: 1px solid var(--border);
-        border-left: 3px solid rgba(124,92,191,0.6);
-        border-radius: 10px;
-        padding: 1.1rem 1.3rem;
-        backdrop-filter: blur(8px);
-        font-family: 'Inter', sans-serif;
-    }
-    .pipe-box .tag {
-        display: inline-block;
-        background: rgba(79,142,247,0.15);
-        color: #90b8ff;
-        font-size: 0.65rem;
-        padding: 2px 8px;
-        border-radius: 4px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        border: 1px solid rgba(79,142,247,0.25);
-        margin-bottom: 0.5rem;
-    }
-    .pipe-box h4 {
-        color: var(--white);
-        font-size: 0.92rem;
-        margin: 0 0 0.35rem 0;
-        letter-spacing: 0.5px;
-    }
-    .pipe-box p {
-        color: var(--muted);
-        font-size: 0.8rem;
-        margin: 0;
-        line-height: 1.6;
-    }
-    .pipe-box code {
-        background: rgba(124,92,191,0.15);
-        color: #c4b8ff;
-        padding: 1px 5px;
-        border-radius: 3px;
-        font-size: 0.75rem;
-    }
-    .arrow {
-        text-align: center;
-        font-size: 1.3rem;
-        color: rgba(124,92,191,0.5);
-        padding-top: 2.2rem;
-    }
+.wrap { padding: 48px 64px; }
 
-    /* Tech stack */
-    .tech-col h4 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1rem;
-        letter-spacing: 2px;
-        color: var(--blue);
-        margin-bottom: 0.5rem;
-    }
-    .tech-col p, .tech-col li {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.8rem;
-        color: var(--muted);
-        line-height: 1.8;
-    }
+.sec-head { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 6px; color: var(--white); margin: 0 0 6px 0; }
+.sec-line { width: 32px; height: 2px; background: var(--accent); border-radius: 2px; margin-bottom: 24px; }
+.sec-desc { font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
 
-    hr { border-color: var(--border) !important; }
+.llm-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.llm-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 16px 0 0 16px;
+}
+.llm-card.gemini::before { background: #3d9bff; }
+.llm-card.claude::before { background: #ff4f9a; }
+.llm-card.cohere::before { background: #3dffa0; }
 
-    /* Back button */
-    .back-btn {
-        display: inline-block;
-        margin-bottom: 2rem;
-        padding: 8px 18px;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        font-family: 'Inter', sans-serif;
-        font-size: 0.7rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        text-decoration: none;
-        border-radius: 4px;
-        background: rgba(124,92,191,0.07);
-        backdrop-filter: blur(4px);
-        transition: all 0.2s ease;
-    }
-    .back-btn:hover { color: var(--white); border-color: rgba(124,92,191,0.5); }
+.llm-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 100px; margin-bottom: 10px;
+}
+.llm-badge.gemini { background: rgba(61,155,255,0.1); color: #7ec3ff; border: 1px solid rgba(61,155,255,0.2); }
+.llm-badge.claude { background: rgba(255,79,154,0.1); color: #ff9ac0; border: 1px solid rgba(255,79,154,0.2); }
+.llm-badge.cohere { background: rgba(61,255,160,0.1); color: #3dffa0; border: 1px solid rgba(61,255,160,0.2); }
+
+.llm-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); margin: 0 0 8px 0; }
+.llm-desc  { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--text); line-height: 1.7; margin-bottom: 12px; }
+.llm-why   { font-family: 'DM Sans', sans-serif; font-size: 0.76rem; color: var(--muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; line-height: 1.6; }
+.llm-why b { color: var(--text); }
+
+.pipeline-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+}
+.pipe-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 4px; margin-bottom: 20px; }
+.pipe-title.blue   { color: var(--blue); }
+.pipe-title.purple { color: var(--accent); }
+
+.pipe-step {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.pipe-step:last-child { border-bottom: none; }
+.pipe-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+    color: var(--accent); min-width: 28px; line-height: 1;
+}
+.pipe-content { flex: 1; }
+.pipe-name { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+.pipe-detail { font-family: 'DM Sans', sans-serif; font-size: 0.74rem; color: var(--muted); line-height: 1.5; }
+.pipe-tag {
+    font-family: 'DM Sans', sans-serif; font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 100px; margin-left: 6px;
+    background: rgba(108,79,255,0.12); color: #b0a0ff;
+    border: 1px solid rgba(108,79,255,0.2);
+}
+
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.feature-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+}
+.feature-icon  { font-size: 1.4rem; margin-bottom: 8px; }
+.feature-title { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 2px; color: var(--white); margin-bottom: 4px; }
+.feature-desc  { font-family: 'DM Sans', sans-serif; font-size: 0.74rem; color: var(--muted); line-height: 1.5; }
+
+.stack-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+}
+.stack-row:last-child { border-bottom: none; }
+.stack-cat  { color: var(--muted); min-width: 140px; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+.stack-tool { color: var(--white); font-weight: 500; }
+.stack-desc { color: var(--muted); font-size: 0.72rem; }
+
+.crowd-box {
+    background: rgba(108,79,255,0.06);
+    border: 1px solid rgba(108,79,255,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 12px;
+    padding: 16px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; line-height: 1.7; color: var(--text);
+    margin-bottom: 16px;
+}
+.crowd-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+
+.footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 28px 64px; text-align: center; font-family: 'DM Sans', sans-serif; font-size: 0.68rem; color: var(--muted); letter-spacing: 1px; }
+
+hr { border-color: var(--border) !important; margin: 0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── HEADER ──
-st.markdown('<a class="back-btn" href="/" target="_self">← Back to Dance Finder</a>', unsafe_allow_html=True)
-st.markdown('<div class="page-title">HOW IT<br>WORKS</div>', unsafe_allow_html=True)
-st.markdown('<div class="page-subtitle">The AI & Data Pipeline Behind Dance Finder</div>', unsafe_allow_html=True)
+# ── PAGE HERO ──
+st.markdown("""
+<div class="page-hero">
+    <div class="page-eyebrow">PDAI Assignment 2 — How It Works</div>
+    <h1 class="page-title">THE <span>PIPELINE</span></h1>
+    <p class="page-sub">Three LLMs. Real data. One Barcelona dance discovery platform.</p>
+    <a class="back-link" href="/" target="_self">← Back to Dance Finder</a>
+</div>
+""", unsafe_allow_html=True)
 
-st.divider()
+st.markdown('<div class="wrap">', unsafe_allow_html=True)
 
-# ── 3 PILLARS ──
-st.markdown('<div class="section-title">The 3 Pillars of This AI Prototype</div>', unsafe_allow_html=True)
-st.markdown('<p style="font-family:Inter;font-size:0.8rem;color:#6a6a8a;margin-bottom:1rem;">As defined in the PDAI course framework — every AI prototype must address these three aspects.</p>', unsafe_allow_html=True)
+# ── SECTION 1: THE 3 PILLARS ──
+st.markdown("""
+<div class="sec-head">⚡ The 3 LLM Features</div>
+<div class="sec-line"></div>
+<p class="sec-desc">
+    Dance Finder BCN uses three separate LLM APIs, each serving a distinct and non-trivial role in the pipeline.
+    No LLM is used for a simple prompt → format response pattern.
+</p>
+""", unsafe_allow_html=True)
 
-c1, c2, c3 = st.columns(3)
-with c1:
+# Gemini
+st.markdown("""
+<div class="llm-card gemini">
+    <div class="llm-badge gemini">🔵 LLM 1 — Gemini 1.5 Flash</div>
+    <div class="llm-title">Web Scraper & Data Extractor</div>
+    <div class="llm-desc">
+        Gemini reads raw HTML scraped from real Barcelona dance studio websites and extracts structured class data.
+        It handles missing fields, multilingual content (Spanish, Catalan, English), inconsistent layouts,
+        and returns only valid JSON — no markdown, no explanation.
+    </div>
+    <div class="llm-why">
+        <b>Why non-straightforward:</b> A simple prompt fails on real-world HTML.
+        The final prompt went through 6+ iterations to handle edge cases.
+        The JSON output is then post-processed by Python: validated, merged with
+        studio metadata from studios.json, enriched with a heuristic crowd score,
+        and written to classes.json — the LLM feeds the entire data pipeline.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Claude / Gemini Chatbot
+st.markdown("""
+<div class="llm-card claude">
+    <div class="llm-badge claude">🩷 LLM 2 — Gemini / Claude AI</div>
+    <div class="llm-title">Natural Language Search & Multi-Turn Chatbot</div>
+    <div class="llm-desc">
+        Two separate API calls per user query. The first extracts structured filter parameters
+        (style, level, free_only) from natural language and returns JSON that directly controls
+        Streamlit widget state. The second provides a conversational answer using all current
+        class data as RAG context, maintaining full multi-turn conversation history.
+    </div>
+    <div class="llm-why">
+        <b>Why non-straightforward:</b> The LLM output from the first call is post-processed
+        by Python to update five Streamlit filter dimensions simultaneously — the LLM directly
+        drives UI state. The second call is a genuine RAG multi-turn chatbot, not a one-shot prompt.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Cohere
+st.markdown("""
+<div class="llm-card cohere">
+    <div class="llm-badge cohere">🟢 LLM 3 — Cohere Rerank</div>
+    <div class="llm-title">Semantic Result Reranking</div>
+    <div class="llm-desc">
+        After the filters are applied, Cohere Rerank (rerank-english-v3.0) re-sorts the
+        remaining classes by semantic relevance to the user's original query.
+        A search for "latin vibes tonight" surfaces Salsa and Bachata above Ballet,
+        even if all three pass the filters.
+    </div>
+    <div class="llm-why">
+        <b>Why non-straightforward:</b> The LLM returns a ranked index list which Python
+        uses to reorder the filtered classes array before passing it to the card renderer —
+        the LLM directly controls the display order of the UI, decoupled from time_start sorting.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
+
+# ── SECTION 2: PIPELINE ──
+st.markdown("""
+<div class="sec-head">🔄 Data Pipeline</div>
+<div class="sec-line"></div>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns(2, gap="large")
+
+with col1:
     st.markdown("""
-    <div class="pillar-card">
-        <h3>🎨 Appearance & UX</h3>
-        <p>Designed around the real mental model of a dancer looking for a class tonight. Ticket-style cards mimic event passes. The dark map gives immediate geographic context. Filters are fast and intuitive. The IG Story viewer builds trust by showing the raw AI source.</p>
+    <div class="pipeline-wrap">
+        <div class="pipe-title blue">OFFLINE PHASE — scraper.py</div>
+        <div class="pipe-step">
+            <div class="pipe-num">1</div>
+            <div class="pipe-content">
+                <div class="pipe-name">BeautifulSoup Scraper <span class="pipe-tag">Real</span></div>
+                <div class="pipe-detail">Downloads HTML from 6 real Barcelona studio websites. Strips scripts, nav, footer — isolates content text.</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">2</div>
+            <div class="pipe-content">
+                <div class="pipe-name">Gemini Extraction <span class="pipe-tag">LLM 1</span></div>
+                <div class="pipe-detail">Sends cleaned text to Gemini with a structured prompt. Returns JSON array of classes with all required fields.</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">3</div>
+            <div class="pipe-content">
+                <div class="pipe-name">Python Post-Processing</div>
+                <div class="pipe-detail">Merges LLM output with studio metadata (GPS, links, Instagram). Adds heuristic crowd score. Saves to classes.json.</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">4</div>
+            <div class="pipe-content">
+                <div class="pipe-name">classes.json</div>
+                <div class="pipe-detail">Structured output ready for runtime. 16 curated real classes from 6 Barcelona studios with verified URLs.</div>
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
-with c2:
+
+with col2:
     st.markdown("""
-    <div class="pillar-card">
-        <h3>⚙️ Data & AI Pipeline</h3>
-        <p>A Vision LLM (GPT-4o) reads Instagram story screenshots and studio websites daily. It extracts structured data: time, teacher, style, price, level. The pipeline runs offline so the Streamlit app stays fast at runtime. No manual data entry needed.</p>
+    <div class="pipeline-wrap">
+        <div class="pipe-title purple">RUNTIME PHASE — app.py</div>
+        <div class="pipe-step">
+            <div class="pipe-num">1</div>
+            <div class="pipe-content">
+                <div class="pipe-name">User Query</div>
+                <div class="pipe-detail">User types natural language search: "Heels class tonight for beginners" or "free Salsa trial".</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">2</div>
+            <div class="pipe-content">
+                <div class="pipe-name">Claude / Gemini Filter Extraction <span class="pipe-tag">LLM 2</span></div>
+                <div class="pipe-detail">First API call extracts filter parameters as JSON. Python applies them to all 5 Streamlit filter widgets.</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">3</div>
+            <div class="pipe-content">
+                <div class="pipe-name">Cohere Rerank <span class="pipe-tag">LLM 3</span></div>
+                <div class="pipe-detail">Filtered results are semantically re-sorted by relevance to the original query before rendering.</div>
+            </div>
+        </div>
+        <div class="pipe-step">
+            <div class="pipe-num">4</div>
+            <div class="pipe-content">
+                <div class="pipe-name">Chatbot Response <span class="pipe-tag">LLM 2</span></div>
+                <div class="pipe-detail">Second API call generates a conversational answer with studio details, times, prices and links.</div>
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
-with c3:
-    st.markdown("""
-    <div class="pillar-card">
-        <h3>✅ Accuracy & Trust</h3>
-        <p>Every class card links back to its original Instagram story screenshot — the raw source the AI read. Users can verify any extracted data themselves. The crowd predictor shows a confidence score, not a binary yes/no. Transparency is built into the design.</p>
+
+st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
+
+# ── SECTION 3: CROWD SCORE ──
+st.markdown("""
+<div class="sec-head">📊 Crowd Score — How It Works</div>
+<div class="sec-line"></div>
+<div class="crowd-box">
+    <div class="crowd-title">⚡ Heuristic Model — Rule-Based Estimation</div>
+    The crowd score is calculated by a rule-based heuristic in database.py — not randomly assigned.
+    It combines three signals: <b>weekday</b> (Friday = 1.0x, Monday = 0.7x),
+    <b>time of day</b> (18:00–21:00 prime time = +0.15), and
+    <b>style popularity</b> (Salsa base = 0.75, Tap base = 0.38).
+    The result is displayed as a percentage bar on every card and map popup,
+    clearly labelled as "estimated". In production, real user check-in data
+    would replace this heuristic with a trained Random Forest model.
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
+
+# ── SECTION 4: NON-LLM FEATURES ──
+st.markdown("""
+<div class="sec-head">✨ Non-LLM Improvements</div>
+<div class="sec-line"></div>
+<div class="feature-grid">
+    <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">Community Ratings</div>
+        <div class="feature-desc">Users rate classes 1–5 stars with optional comments. Stored in local SQLite database. Average shown live on every card.</div>
     </div>
-    """, unsafe_allow_html=True)
+    <div class="feature-card">
+        <div class="feature-icon">📩</div>
+        <div class="feature-title">Email Notifications</div>
+        <div class="feature-desc">Register your email to subscribe to studios. Get alerted when new classes are added via Gmail SMTP (smtplib).</div>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <div class="feature-title">Real Studio Data</div>
+        <div class="feature-desc">17 real Barcelona studios with verified GPS, Instagram, Google Maps and website links. All clickable from every card.</div>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🎂</div>
+        <div class="feature-title">Age Group Filter</div>
+        <div class="feature-desc">New Kids (4–12) / Teens (13–17) / Adults (18+) filter added across all class cards and the filter bar.</div>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🗺</div>
+        <div class="feature-title">Enriched Map</div>
+        <div class="feature-desc">Active classes shown as coloured markers (crowd level). All other studios shown as background markers with popup links.</div>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🎵</div>
+        <div class="feature-title">20+ Dance Styles</div>
+        <div class="feature-desc">Ballet, Flamenco, Voguing, Waacking, Tap, Heels, Dancehall, Afrobeats, Krump and more — fully filterable.</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-st.divider()
+st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
 
-# ── PIPELINE ──
-st.markdown('<div class="section-title">The Full Data Pipeline</div>', unsafe_allow_html=True)
-st.markdown('<p style="font-family:Inter;font-size:0.8rem;color:#6a6a8a;margin-bottom:1.2rem;">Split into two phases: <b style="color:#c8c8e8;">Offline</b> (runs daily) and <b style="color:#c8c8e8;">Runtime</b> (the Streamlit app).</p>', unsafe_allow_html=True)
+# ── SECTION 5: TECH STACK ──
+st.markdown("""
+<div class="sec-head">🛠 Tech Stack</div>
+<div class="sec-line"></div>
+""", unsafe_allow_html=True)
 
-st.markdown("##### 🌙 Offline Phase — runs daily via cronjob")
-p1, a1, p2, a2, p3, a3, p4 = st.columns([3,0.6,3,0.6,3,0.6,3])
-with p1:
-    st.markdown("""<div class="pipe-box"><div class="tag">Step 1 · Scraper</div><h4>📲 Data Collection</h4><p>Python script scrapes Barcelona dance studio websites and downloads Instagram story screenshots from teacher accounts daily.</p></div>""", unsafe_allow_html=True)
-with a1:
-    st.markdown('<div class="arrow">→</div>', unsafe_allow_html=True)
-with p2:
-    st.markdown("""<div class="pipe-box"><div class="tag">Step 2 · Vision LLM</div><h4>🤖 AI Extraction</h4><p>GPT-4o reads each image. Prompt: <em>"Extract time, teacher, style, price, level."</em> Returns structured JSON automatically.</p></div>""", unsafe_allow_html=True)
-with a2:
-    st.markdown('<div class="arrow">→</div>', unsafe_allow_html=True)
-with p3:
-    st.markdown("""<div class="pipe-box"><div class="tag">Step 3 · Storage</div><h4>🗄️ Clean Database</h4><p>Saved as <code>classes.json</code> for today's view and appended to <code>classes_history.csv</code> for the crowd prediction model.</p></div>""", unsafe_allow_html=True)
-with a3:
-    st.markdown('<div class="arrow">→</div>', unsafe_allow_html=True)
-with p4:
-    st.markdown("""<div class="pipe-box"><div class="tag">Step 4 · ML Model</div><h4>📊 Crowd Predictor</h4><p>Random Forest trained on historical attendance data predicts how full each class will be. Saved as <code>model.pkl</code>, loaded at runtime.</p></div>""", unsafe_allow_html=True)
+stack = [
+    ("Frontend", "Streamlit", "Web app framework with custom CSS design system"),
+    ("Map", "Folium + streamlit-folium", "Interactive dark-tile map with circle markers"),
+    ("LLM 1", "Gemini 1.5 Flash", "Web scraping parser + chatbot fallback"),
+    ("LLM 2", "Claude / Gemini AI", "Natural language search + multi-turn RAG chatbot"),
+    ("LLM 3", "Cohere Rerank", "Semantic result reranking"),
+    ("Web Scraping", "BeautifulSoup + requests", "Studio website HTML extraction"),
+    ("Database", "SQLite (database.py)", "User ratings + email subscriptions"),
+    ("Notifications", "smtplib + Gmail SMTP", "Email alerts for new classes"),
+    ("Storage", "classes.json + studios.json", "Class data + curated studio metadata"),
+    ("Deployment", "Streamlit Cloud", "Automatic deploy from GitHub on every push"),
+    ("Version Control", "GitHub", "Public repository — no API keys committed"),
+]
 
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown("##### ☀️ Runtime Phase — the Streamlit app")
-r1, ra, r2 = st.columns([3,0.6,3])
-with r1:
-    st.markdown("""<div class="pipe-box" style="border-left-color:rgba(79,142,247,0.6);"><div class="tag" style="background:rgba(79,142,247,0.1);color:#90b8ff;border-color:rgba(79,142,247,0.25);">Runtime · Load</div><h4>📂 Load Clean Data</h4><p>Reads <code>classes.json</code> and <code>model.pkl</code> at startup. No scraping, no API calls — instant load time.</p></div>""", unsafe_allow_html=True)
-with ra:
-    st.markdown('<div class="arrow">→</div>', unsafe_allow_html=True)
-with r2:
-    st.markdown("""<div class="pipe-box" style="border-left-color:rgba(79,142,247,0.6);"><div class="tag" style="background:rgba(79,142,247,0.1);color:#90b8ff;border-color:rgba(79,142,247,0.25);">Runtime · Display</div><h4>🎫 Present to User</h4><p>Ticket cards, interactive map, teacher profiles, crowd badges and IG story previews rendered dynamically based on filters.</p></div>""", unsafe_allow_html=True)
+html = '<div class="pipeline-wrap">'
+for cat, tool, desc in stack:
+    html += (
+        f'<div class="stack-row">'
+        f'<span class="stack-cat">{cat}</span>'
+        f'<span class="stack-tool">{tool}</span>'
+        f'<span class="stack-desc"> — {desc}</span>'
+        f'</div>'
+    )
+html += '</div>'
+st.markdown(html, unsafe_allow_html=True)
 
-st.divider()
+st.markdown('</div>', unsafe_allow_html=True)
 
-# ── AI MODELS ──
-st.markdown('<div class="section-title">The Two AI Models</div>', unsafe_allow_html=True)
-b1, b2 = st.columns(2)
-with b1:
-    st.markdown("""<div class="pipe-box"><div class="tag">Model 1 · Crowd Predictor</div><h4>⚡ Will This Class Fill Up?</h4><p>Every day the scraper logs: date, weekday, teacher, style, studio, weather, spots_filled. A Random Forest or XGBoost model trains on this history to predict crowd levels. The <code>crowd_score</code> in the app is this model's output.</p></div>""", unsafe_allow_html=True)
-with b2:
-    st.markdown("""<div class="pipe-box"><div class="tag">Model 2 · Recommender</div><h4>💡 What Should I Try Next?</h4><p>As users interact (saving classes, booking, rating), a collaborative filtering model builds a preference profile. It recommends classes based on similarity to other dancers — like Spotify's Discover Weekly, but for dance classes.</p></div>""", unsafe_allow_html=True)
-
-st.divider()
-
-# ── TECH STACK ──
-st.markdown('<div class="section-title">Tech Stack</div>', unsafe_allow_html=True)
-t1, t2, t3 = st.columns(3)
-with t1:
-    st.markdown("""<div class="tech-col"><h4>Frontend</h4><ul><li>Streamlit</li><li>Folium (interactive map)</li><li>Custom HTML/CSS ticket cards</li><li>streamlit-folium</li></ul></div>""", unsafe_allow_html=True)
-with t2:
-    st.markdown("""<div class="tech-col"><h4>AI & Data Pipeline</h4><ul><li>GPT-4o Vision API</li><li>BeautifulSoup (scraper)</li><li>instaloader (Instagram)</li><li>scikit-learn / XGBoost</li></ul></div>""", unsafe_allow_html=True)
-with t3:
-    st.markdown("""<div class="tech-col"><h4>Infrastructure</h4><ul><li>JSON / CSV storage</li><li>AWS EC2 deployment</li><li>GitHub version control</li><li>Cronjob daily pipeline</li></ul></div>""", unsafe_allow_html=True)
-
-st.markdown('<br><p style="font-family:Inter;font-size:0.7rem;color:#3a3a5a;text-align:center;">Dance Finder · PDAI Assignment 1 · Prototype uses mock data to simulate the full AI pipeline</p>', unsafe_allow_html=True)
+# ── FOOTER ──
+st.markdown("---")
+st.markdown("""
+<div class="footer">
+    <span style="font-family:'Bebas Neue',sans-serif;letter-spacing:3px;color:#f0f0ff;">
+        DANCE<span style="color:#6c4fff;">FINDER</span> BCN
+    </span>
+    &nbsp;·&nbsp; PDAI Assignment 2 &nbsp;·&nbsp; Mara Rüsen &nbsp;·&nbsp; ESADE 2026
+    &nbsp;·&nbsp; Gemini · Claude AI · Cohere · Streamlit · SQLite
+</div>
+""", unsafe_allow_html=True)
