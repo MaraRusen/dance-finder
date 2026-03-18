@@ -4,6 +4,15 @@ import anthropic
 from dotenv import load_dotenv
 
 load_dotenv()
+
+client = None
+try:
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if api_key:
+        client = anthropic.Anthropic(api_key=api_key)
+except:
+    pass
+
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 def load_classes() -> list:
@@ -39,6 +48,8 @@ Class {i+1}:
     return "\n".join(lines)
 
 def get_filter_instructions(user_query: str, classes: list) -> dict:
+    if client is None:
+        return {"styles": [], "levels": [], "free_only": False, "keywords": []}
     """
     Ask Claude to extract filter parameters from natural language query.
     Returns a dict with filter keys that the Streamlit app can apply directly.
@@ -89,6 +100,8 @@ def chat(user_message: str, conversation_history: list, classes: list) -> tuple[
     Multi-turn Claude chatbot with dance class data as RAG context.
     Returns (assistant_response, updated_history)
     """
+    if client is None:
+        return "AI search is currently unavailable — API key missing.", conversation_history
     context = classes_to_context(classes)
     
     system_prompt = f"""You are Dance Finder AI, a friendly and knowledgeable assistant for finding dance classes in Barcelona.
